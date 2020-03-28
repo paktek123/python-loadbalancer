@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mango1:
+    image: server
+    environment:
+      - APP=mango
+    ports:
+      - "8081:5000"
+
+  mango2:
+    image: server
+    environment:
+      - APP=mango
+    ports:
+      - "8082:5000"
+
+  apple1:
+    image: server
+    environment:
+      - APP=apple
+    ports:
+      - "9081:5000"
+
+  apple2:
+    image: server
+    environment:
+      - APP=apple
+    ports:
+      - "9082:5000"
