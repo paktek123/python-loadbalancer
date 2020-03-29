@@ -1,0 +1,20 @@
+hosts:
+  - host: www.mango.com
+    servers:
+      - localhost:8081
+      - localhost:8082
+      - localhost:7777
+  - host: www.apple.com
+    servers:
+      - localhost:9081
+      - localhost:9082
+      - localhost:8888
+paths:
+  - path: /mango
+    servers:
+      - localhost:8081
+      - localhost:8082
+  - path: /apple
+    servers:
+      - localhost:9081
+      - localhost:9082
