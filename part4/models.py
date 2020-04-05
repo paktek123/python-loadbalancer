@@ -8,6 +8,11 @@ class Server:
         self.timeout = 1
         self.scheme = "http://"
 
+    def __eq__(self, other):
+        if isinstance(other, Server):
+            return self.endpoint == other.endpoint
+        return False
+
     def healthcheck_and_update_status(self):
         try:
             response = requests.get(self.scheme + self.endpoint + self.path, timeout=self.timeout)

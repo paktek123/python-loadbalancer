@@ -18,9 +18,8 @@ def test_transform_backends_from_config():
     ''')
     output = transform_backends_from_config(input)
     assert list(output.keys()) == ["www.mango.com", "www.apple.com"]
-    print(output)
-    #assert isinstance(list(output.values())[0][0], Server) == isinstance(output["www.mango.com"][0], Server)
-    #assert list(output.values())[1] == isinstance(output["www.mango.com"][1], Server)
-    #assert list(output.values())[0] == isinstance(output["www.apple.com"][0], Server)
-    #assert list(output.values())[1] == isinstance(output["www.mango.com"][1], Server)
+    assert output["www.mango.com"][0] == Server("localhost:8081")
+    assert output["www.mango.com"][1] == Server("localhost:8082")
+    assert output["www.apple.com"][0] == Server("localhost:9081")
+    assert output["www.apple.com"][1] == Server("localhost:9082")
 
