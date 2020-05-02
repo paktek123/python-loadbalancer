@@ -8,26 +8,20 @@ class Server:
         self.timeout = 1
         self.scheme = "http://"
 
-    def __eq__(self, other):
-        if isinstance(other, Server):
-            return self.endpoint == other.endpoint
-        return False
-
     def healthcheck_and_update_status(self):
         try:
             response = requests.get(self.scheme + self.endpoint + self.path, timeout=self.timeout)
             if response.ok:
-                self.mark_as_up()
+                self.healthy = True
             else:
-                self.mark_as_down()
+                self.healthy = False
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
-            self.mark_as_down()
+            self.healthy = False
 
-    def mark_as_down(self):
-        self.healthy = False
-
-    def mark_as_up(self):
-        self.healthy = True
+    def __eq__(self, other):
+        if isinstance(other, Server):
+            return self.endpoint == other.endpoint
+        return False
 
     def __repr__(self):
         return "<Server: {} {} {}>".format(self.endpoint, self.healthy, self.timeout)

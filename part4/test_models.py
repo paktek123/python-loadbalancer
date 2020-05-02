@@ -22,3 +22,10 @@ def test_server_healthcheck_fail(server):
     server.healthcheck_and_update_status()
     assert server.healthy == False
 
+def test_server_equal(server):
+    another = Server("localhost:5554")
+    assert server != another
+
+def test_server_not_equal(server):
+    another = Server("localhost:5555")
+    assert server == another
