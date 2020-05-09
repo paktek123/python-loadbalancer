@@ -32,5 +32,13 @@ def process_rules(config, host, rules, modify):
                     rules.update(modify_headers)
                 if instruction == "remove":
                     for key in modify_headers.keys():
-                        rules.pop(key) 
+                        if key in rules:
+                            rules.pop(key) 
     return rules
+
+def process_rewrite_rules(config, host, path):
+    for entry in config.get('hosts', []):
+        if host == entry['host']:
+            rewrite_rules = entry.get('rewrite_rules', {})
+            for current_path, new_path in rewrite_rules["replace"].items():
+                return path.replace(current_path, new_path)

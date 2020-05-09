@@ -15,5 +15,13 @@ def sample():
 def healthcheck():
     return "OK"
 
+@app.route('/v1')
+def v1():
+    return "This is V1"
+
+@app.route('/v2')
+def v2():
+    return "This is V2"
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

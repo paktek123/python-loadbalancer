@@ -10,6 +10,9 @@ hosts:
         MyCustomParam: Test
       remove:
         RemoveMe: Remove
+    rewrite_rules:
+      replace:
+        v1: v2
     servers:
       - localhost:8081
       - localhost:8082
