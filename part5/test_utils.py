@@ -1,4 +1,4 @@
-from utils import get_healthy_server, transform_backends_from_config, process_header_rules
+from utils import get_healthy_server, transform_backends_from_config, process_rules
 from models import Server
 
 import pytest
@@ -79,6 +79,36 @@ def test_process_header_rules():
               - localhost:9082
     ''')
     headers = {"Host": "www.mango.com"}
-    results = process_header_rules(input, "www.mango.com", headers)
+    results = process_rules(input, "www.mango.com", headers, "header")
     assert results == {"MyCustomHeader": "Test"}
     
+
+def test_process_param_rules():
+    input = yaml.safe_load('''
+        hosts:
+          - host: www.mango.com
+            param_rules:
+              add:
+                MyCustomParam: Test
+              remove:
+                RemoveMe: Remove
+            servers:
+              - localhost:8081
+              - localhost:8082
+          - host: www.apple.com
+            servers:
+              - localhost:9081
+              - localhost:9082
+        paths:
+          - path: /mango
+            servers:
+              - localhost:8081
+              - localhost:8082
+          - path: /apple
+            servers:
+              - localhost:9081
+              - localhost:9082
+    ''')
+    params = {"RemoveMe": "Remove"}
+    results = process_rules(input, "www.mango.com", params, "param")
+    assert results == {"MyCustomParam": "Test"}

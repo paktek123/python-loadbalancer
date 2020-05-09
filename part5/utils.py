@@ -21,14 +21,16 @@ def get_healthy_server(host, register):
     except IndexError:
         return None
 
-def process_header_rules(config, host, headers):
+def process_rules(config, host, rules, modify):
+    modify_options = {"header": "header_rules", 
+                      "param": "param_rules"}
     for entry in config.get('hosts', []):
         if host == entry['host']: 
-            print(entry)
-            for rules in entry["header_rules"].items():
+            header_rules = entry.get(modify_options[modify], {})
+            for instruction, modify_headers in header_rules.items():
                 if instruction == "add":
-                    headers.add(modify_headers)
+                    rules.update(modify_headers)
                 if instruction == "remove":
                     for key in modify_headers.keys():
-                        headers.remove(key) 
-    return headers
+                        rules.pop(key) 
+    return rules

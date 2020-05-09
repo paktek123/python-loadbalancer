@@ -1,6 +1,6 @@
 from flask import Flask, request
 import requests, random
-from utils import load_configuration, transform_backends_from_config, get_healthy_server, process_header_rules
+from utils import load_configuration, transform_backends_from_config, get_healthy_server, process_rules
 from tasks import healthcheck
 import sys
 
@@ -18,8 +18,9 @@ def router(path="/"):
             healthy_server = get_healthy_server(entry["host"], updated_register)
             if not healthy_server:
                 return "No Backends servers available", 503
-            headers = process_header_rules(config, host_header, request.headers)
-            response = requests.get("http://{}".format(healthy_server.endpoint))
+            headers = process_rules(config, host_header, {k:v for k,v in request.headers.items()}, "header" )
+            params = process_rules(config, host_header, {k:v for k,v in request.args.items()}, "param")
+            response = requests.get("http://{}".format(healthy_server.endpoint), headers=headers, params=params)
             return response.content, response.status_code
     
     for entry in config["paths"]:

@@ -5,10 +5,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def sample():
-    return "This is the {} application. Serving on {}. Custom Header: {}, Host Header: {}".format(os.environ["APP"], 
+    return "This is the {} application. Serving on {}. Custom Header: {}, Host Header: {}, Custom Param: {}".format(os.environ["APP"], 
                                                                                                   os.environ["ENDPOINT"],
                                                                                                   request.headers.get("MyCustomHeader", "None"),
-                                                                                                  request.headers.get("Host", os.environ["ENDPOINT"]))
+                                                                                                  request.headers.get("Host", os.environ["ENDPOINT"]),
+                                                                                                  request.args.get("MyCustomParam", "None"))
 
 @app.route('/healthcheck')
 def healthcheck():

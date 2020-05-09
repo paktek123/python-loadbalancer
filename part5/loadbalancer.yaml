@@ -5,6 +5,11 @@ hosts:
         MyCustomHeader: Test
       remove: 
         Host: www.mango.com
+    param_rules:
+      add:
+        MyCustomParam: Test
+      remove:
+        RemoveMe: Remove
     servers:
       - localhost:8081
       - localhost:8082
